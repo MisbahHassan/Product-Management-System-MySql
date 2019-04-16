@@ -1,0 +1,31 @@
+﻿@model PMS.Entities.UserDTO
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserProfile</title>
+    <link href="@Url.Content("~/Content/Styling.css")" rel="stylesheet" type="text/css" />
+
+</head>
+<style>
+    body {
+        background-color: #179571;
+    }
+</style>
+<body>
+    <div class="container">
+        <h2 align="center">Welcome @Model.Name</h2>
+        <h3 align="center">@Model.Email</h3>
+
+        <div style="text-align:right; margin-right:100px" align="center">
+            <img src="~/UserPics/@Model.PictureName" style="width:200px;height:250px;"><br />
+        </div>
+    </div>
+</body>
+</html>

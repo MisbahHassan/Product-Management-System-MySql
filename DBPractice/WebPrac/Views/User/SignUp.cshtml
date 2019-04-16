@@ -1,0 +1,72 @@
+﻿@{
+    Layout = null;
+    ViewBag.title = "Sign Up";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sign Up</title>
+    <link href="@Url.Content("~/Content/Styling.css")" rel="stylesheet" type="text/css" />
+
+</head>
+<style>
+
+    .container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 80px 0;
+  height: 800px;
+  text-align: center;
+}
+    .wrapper {
+  background: #3EDEAB;
+  position:absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 600px;
+  margin-top: -300px;
+}
+    .btn {
+    background-color: #3EDEAB; /* Green */
+    border: none;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    margin: 2px 2px;
+    cursor: pointer;
+}</style>
+
+<body>
+    <div algin="center" bgcolor="lightblue">
+        <div class="wrapper">
+            <h1 align="center">Sign Up</h1>
+            <div class="container">
+                <form action="~/User/Save" method="post" enctype="multipart/form-data">
+                    <p>Name:<input type="text" id="name" name="Name" required /></p>
+                    <p><input type="file" id="imageName" name="PictureName" required></p>
+                    Login:<input type="text" class="submit" name="Login" required />
+                    <p>  Email:<input type="email" name="Email" required /></p>
+
+                    <p>Password:<input type="password" name="Password" required /></p>
+
+                    <input type="submit" class="button" value="Sign Up" name="Signup" />
+
+                </form>
+
+                <input type="submit" class="btn" value="Cancel" name="cancel" onclick="@("window.location.href='" + @Url.Action("CancelUser", "User") + "'");" />
+            </div>
+            </div>
+
+
+
+        </div>
+</body>
+
+</html>

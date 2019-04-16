@@ -1,0 +1,70 @@
+﻿@model PMS.Entities.UserDTO
+@{
+    Layout = "~/Views/Shared/_MyProductLayout.cshtml";
+    ViewBag.title = "Edit Profile";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditProfile</title>
+    <link href="@Url.Content("~/Content/Styling.css")" rel="stylesheet" type="text/css" />
+
+</head>
+<style>
+     body {
+                background-color: #179571;
+
+    }
+      .btn {
+        background-color: #3EDEAB; /* Green */
+        border: none;
+        color: white;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 15px;
+        margin: 2px 2px;
+        cursor: pointer;
+    }
+
+</style>
+<body>
+
+    <h1>Edit Profile</h1>
+    @{
+        Session["UserID"] = Model.UserID;
+
+    }
+
+
+    <div class="container">
+            <form action="~/User/SaveEditProfile" method="post" enctype="multipart/form-data">
+
+
+                Name:<input type="text" id="name" name="Name" value="@Model.Name" required />
+               Upload Image: <input type="file" name="PictureName" value="~/UserPics/@Model.PictureName" required>
+                
+
+                Login:
+                <input type="text" name="Login" value="@Model.Login" required />
+
+                Email:
+                <input type="email" name="Email" value="@Model.Email" required />
+
+                Password:
+                <input type="password" name="Password" value="@Model.Password" required />
+
+                <input type="submit" class="btn" value="Save Changes" name="EditProfile" />
+                <input class="btn" type="submit" value="Cancel" name="cancel" onclick="@("window.location.href='" + @Url.Action("NormalUser", "Home") + "'" );"
+
+
+
+            </form>
+
+        </div>
+</body>
+
+</html>

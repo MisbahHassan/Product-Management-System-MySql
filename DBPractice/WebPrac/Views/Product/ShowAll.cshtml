@@ -1,0 +1,171 @@
+﻿@model List<PMS.Entities.ProductDTO>
+
+@{
+    ViewBag.Title = "ShowAll";
+    Layout = "~/Views/Shared/_MyProductLayout.cshtml";
+}
+<head>
+    <link href="@Url.Content("~/Content/Styling.css")" rel="stylesheet" type="text/css" />
+</head>
+<style>
+    .btn {
+        background-color: #3EDEAB; /* Green */
+        border: none;
+        color: white;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 15px;
+        margin: 2px 2px;
+        cursor: pointer;
+    }
+
+    body {
+        background-color: #179571;
+    }
+
+        body ::-webkit-input-placeholder {
+            /* WebKit browsers */
+            font-family: 'Source Sans Pro', sans-serif;
+            color: black;
+            font-weight: 300;
+        }
+
+        body :-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            font-family: 'Source Sans Pro', sans-serif;
+            color: black;
+            opacity: 1;
+            font-weight: 300;
+        }
+
+        body ::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            font-family: 'Source Sans Pro', sans-serif;
+            color: black;
+            opacity: 1;
+            font-weight: 300;
+        }
+
+        body :-ms-input-placeholder {
+            /* Internet Explorer 10+ */
+            font-family: 'Source Sans Pro', sans-serif;
+            color: black;
+            font-weight: 300;
+        }
+
+    .wrapper {
+        background: #3EDEAB;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 600px;
+        margin-top: -300px;
+    }
+
+        .wrapper.form-success .container h1 {
+            -webkit-transform: translateY(85px);
+            transform: translateY(85px);
+        }
+</style>
+<title>ViewBag.Title</title>
+@section scripts{
+
+    <script>
+        $(function () {
+            $(".editbutton").click(function () {
+                var pid = $(this).attr("pid");
+                $("#ProductID").val(pid);
+            });
+            $(".btnAddComment").click(function () {
+                var comment = $(this).closest(".commentarea").find(".txtComment").val();
+                var proid = $(this).closest(".prodbox").attr("pid");
+                var settings = {
+                    type: "POST",
+                    dataType: "json",
+                    url: '@Url.Content("~/Product2/SaveComment")',
+                    data: { "CommentTxt": comment, "proid": proid },
+                    success: function (response) {
+
+                        alert("Added");
+                    }
+                };
+
+                $.ajax(settings);
+                location.reload();
+            });
+        });
+    </script>
+
+}
+
+
+<body>
+    <span>@TempData["Msg"]</span>
+    <h2 align="center">ShowAll</h2>
+
+    <div class="container">
+        <form action='@Url.Content("~/Product/Edit2")' method="post">
+            <input type="hidden" name="ProductID" id="ProductID" />
+
+
+            @foreach (var item in Model)
+            {
+                <div class="prodbox" pid="@item.ProductID">
+                    <div style="float:left">
+                        <img src="/UserPics/@item.PictureName" style="width:100px;height:100px;" />
+                    </div>
+                    <div style="float:left">
+
+                        Product Id: @item.ProductID <br />
+                        Name: @item.Name <br />
+                        Price: @item.Price <br />
+                        @{
+                            Session["ProductID"] = item.ProductID;
+                            PMS.Entities.UserDTO user = new PMS.Entities.UserDTO();
+                            user = PMS.BAL.UserBO.GetUserById(item.CreatedBy);
+
+                        }
+                        @if (user != null)
+                        {
+                            <b> Created On</b> @item.CreatedOn <b>By</b> @user.Name
+                        }
+                    </div>
+                    <div style="clear:both">
+                        @if (WebPrac.Security.SessionManager.User.IsAdmin || item.CreatedBy == WebPrac.Security.SessionManager.User.UserID)
+                        {
+                            <a href='@Url.Content("~/Product/Edit/" + @item.ProductID)' class="btn">Edit</a>
+                            <a href='@Url.Content("~/Product/Delete/" + @item.ProductID)' onclick="return confirm('Are you sure, you want to delete it?')" class="btn">Delete</a>
+                        }
+
+                    </div>
+                    <div class="commentarea">
+                        <textarea class="txtComment" id="txtComment" rows="1" cols="50" required></textarea>
+                        <input type="button" class="btn btnAddComment" id="btnAddComment" value="Add Comment" />
+                    </div>
+                    <br />
+                    <div class="comments">
+
+                        @foreach (var comment in item.Comments)
+                        {
+                            <div class="comment">
+                                <div class="picture">
+                                    <img src='@Url.Content("~/UserPics/" + comment.PictureName)' />
+                                </div>
+                                <div>
+                                    <span class="name"><a target="_blank" href='@Url.Action("UserProfile", "Product",new { pic = @comment.PictureName })'>@comment.UserName</a></span><br>                                    <span class="comment-text">@comment.CommentText</span> <br />
+                                    <span class="comment-text">@comment.CommentOn</span>
+
+                                </div>
+                            </div>
+                            <br />
+
+                        }
+                    </div>
+                </div>
+                            }
+
+        </form>
+    </div>
+
+</body>

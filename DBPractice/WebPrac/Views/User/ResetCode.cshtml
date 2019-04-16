@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.title = "Reset Code";
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ResetCode</title>
+    <link href="@Url.Content("~/Content/Styling.css")" rel="stylesheet" type="text/css" />
+
+</head>
+<style>
+    body {
+        background-color: #179571;
+    }
+</style>
+<body>
+        <h1 align="center">Reset Code</h1>
+       
+            <form method="post" action='@Url.Content("~/User/ResetCode")'>
+                <input type="text" name="code" required>
+                <input type="submit" class="button" name="reset" value="Confirm">
+            </form>
+        
+</body>
+</html>

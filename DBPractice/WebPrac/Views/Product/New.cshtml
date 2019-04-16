@@ -1,0 +1,46 @@
+﻿@model PMS.Entities.ProductDTO
+
+@{
+    ViewBag.Title = "New Product";
+    Layout = "~/Views/Shared/_MyProductLayout.cshtml";
+}
+<title>New Product</title>
+<head>
+    <link href="@Url.Content("~/Content/Styling.css")" rel="stylesheet" type="text/css" />
+</head>
+<style>
+    body {
+        background-color: #179571;
+    }
+
+    .btn {
+        background-color: #3EDEAB; /* Green */
+        border: none;
+        color: white;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 15px;
+        margin: 2px 2px;
+        cursor: pointer;
+    }
+</style>
+
+<h2>New Product</h2>
+
+<form action='@Url.Content("~/Product/Save")' method="post" enctype="multipart/form-data">
+        <div class="container">
+
+           
+            @if (Model.PictureName != "")
+            {
+                <img src='@Url.Content("~/UserPics")/@Model.PictureName' style="width:100px;height:100px;" /> <br />
+            }
+            <input type="hidden" name="ProductID" value="@Model.ProductID" />
+            <input type="hidden" name="PictureName" value="@Model.PictureName" />
+            Name<input type="text" name="Name" required value="@Model.Name" /> <br />
+            Price: <input type="text" name="Price" required value="@Model.Price" /> <br />
+            Image: <input type="file" name="PictureName" required />
+            <input class="button" type="submit" value="Save" />
+            </div>
+</form>
